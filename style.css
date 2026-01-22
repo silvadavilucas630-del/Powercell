@@ -1,0 +1,159 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #0b0b0b;
+  color: #fff;
+}
+
+/* LOGO */
+.logo {
+  text-align: center;
+  padding: 20px;
+}
+.logo img {
+  width: 180px;
+}
+
+/* ABAS */
+.abas {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.abas button {
+  background: #111;
+  border: 2px solid transparent;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.abas button img {
+  width: 60px;
+}
+
+.abas button.ativo {
+  border-color: #0f3;
+  box-shadow: 0 0 12px #0f3;
+}
+
+.abas button:active {
+  transform: scale(0.9);
+}
+
+/* VITRINE (2 FILEIRAS) */
+.vitrine {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  animation: fadeIn .4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* CARD */
+.card {
+  background: #111;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 10px #0f3;
+  cursor: pointer;
+  transition: transform .3s, box-shadow .3s;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0,255,0,0.4);
+}
+
+.card img {
+  width: 100%;
+}
+
+.card h3 {
+  margin: 10px 0;
+}
+
+.card .preco {
+  color: #0f3;
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.8);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #111;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+  animation: zoomIn .3s ease;
+}
+
+@keyframes zoomIn {
+  from { transform: scale(.8); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.modal-content img {
+  width: 200px;
+}
+
+.preco {
+  color: #0f3;
+  font-size: 22px;
+  margin: 10px 0;
+}
+
+.opcao {
+  margin: 10px 0;
+}
+
+select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: none;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: #0f3;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background: #0c0;
+}
+
+.fechar {
+  float: right;
+  cursor: pointer;
+  font-size: 22px;
+  }
