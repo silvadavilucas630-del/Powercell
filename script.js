@@ -1,46 +1,39 @@
-const whatsappNumero = "5511999999999"; // 🔴 TROQUE PELO SEU
-
 const produtos = [
   {
-    marca: "mi",
-    nome: "Xiaomi Mi 11 Lite",
-    imagem: "https://i.imgur.com/3ZQ3ZQp.png",
-    cores: ["Preto", "Azul"],
-    memorias: [{ tamanho: "128GB", preco: 1800 }]
-  },
-  {
-    marca: "iphone",
     nome: "iPhone 11",
-    imagem: "https://i.imgur.com/3ZQ3ZQp.png",
-    cores: ["Preto", "Branco"],
-    memorias: [
-      { tamanho: "64GB", preco: 2200 },
-      { tamanho: "128GB", preco: 2600 }
-    ]
+    marca: "apple",
+    img: "img/produtos/iphone11.png",
+    precos: {
+      "64GB": 2300,
+      "128GB": 2600
+    }
   },
   {
-    marca: "redmi",
     nome: "Redmi Note 12",
-    imagem: "https://i.imgur.com/3ZQ3ZQp.png",
-    cores: ["Azul", "Preto"],
-    memorias: [{ tamanho: "128GB", preco: 1100 }]
+    marca: "xiaomi",
+    img: "img/produtos/redmi12.png",
+    precos: {
+      "128GB": 1300,
+      "256GB": 1500
+    }
   },
   {
-    marca: "poco",
     nome: "Poco X5",
-    imagem: "https://i.imgur.com/3ZQ3ZQp.png",
-    cores: ["Preto", "Verde"],
-    memorias: [{ tamanho: "128GB", preco: 1400 }]
+    marca: "poco",
+    img: "img/produtos/pocox5.png",
+    precos: {
+      "128GB": 1500,
+      "256GB": 1700
+    }
   },
   {
-    marca: "realme",
     nome: "Realme C75",
-    imagem: "https://i.imgur.com/3ZQ3ZQp.png",
-    cores: ["Verde", "Preto", "Prata"],
-    memorias: [
-      { tamanho: "128GB", preco: 1300 },
-      { tamanho: "256GB", preco: 1500 }
-    ]
+    marca: "realme",
+    img: "img/produtos/realmec75.png",
+    precos: {
+      "128GB": 1300,
+      "256GB": 1500
+    }
   }
 ];
 
@@ -48,77 +41,60 @@ const vitrine = document.getElementById("vitrine");
 const modal = document.getElementById("modal");
 let produtoAtual = null;
 
-/* MOSTRAR PRODUTOS */
-function mostrarProdutos(marca) {
+function render(lista) {
   vitrine.innerHTML = "";
-  vitrine.style.animation = "none";
-  vitrine.offsetHeight;
-  vitrine.style.animation = null;
-
-  produtos.filter(p => p.marca === marca).forEach(produto => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-      <img src="${produto.imagem}">
-      <h3>${produto.nome}</h3>
-      <p class="preco">A partir de R$ ${produto.memorias[0].preco},00</p>
+  lista.forEach(p => {
+    vitrine.innerHTML += `
+      <div class="card" onclick="abrirModal('${p.nome}')">
+        <img src="${p.img}">
+        <h3>${p.nome}</h3>
+        <div class="preco">A partir de R$ ${Math.min(...Object.values(p.precos))}</div>
+      </div>
     `;
-    card.onclick = () => abrirModal(produto);
-    vitrine.appendChild(card);
   });
 }
 
-/* ABAS */
-function filtrar(marca, botao) {
-  document.querySelectorAll(".abas button").forEach(b => b.classList.remove("ativo"));
-  botao.classList.add("ativo");
-  mostrarProdutos(marca);
+function filtrar(marca, btn) {
+  document.querySelectorAll(".menu button").forEach(b => b.classList.remove("ativo"));
+  btn.classList.add("ativo");
+
+  if (marca === "todos") render(produtos);
+  else render(produtos.filter(p => p.marca === marca));
 }
 
-/* MODAL */
-function abrirModal(produto) {
-  produtoAtual = produto;
-  modal.style.display = "flex";
+function abrirModal(nome) {
+  produtoAtual = produtos.find(p => p.nome === nome);
 
-  modalImagem.src = produto.imagem;
-  modalNome.textContent = produto.nome;
+  document.getElementById("modalImg").src = produtoAtual.img;
+  document.getElementById("modalNome").innerText = produtoAtual.nome;
 
-  modalCor.innerHTML = "";
-  modalMemoria.innerHTML = "";
+  const select = document.getElementById("memoria");
+  select.innerHTML = "";
 
-  produto.cores.forEach(c => modalCor.innerHTML += `<option>${c}</option>`);
-  produto.memorias.forEach((m,i) => modalMemoria.innerHTML += `<option value="${i}">${m.tamanho}</option>`);
+  for (let mem in produtoAtual.precos) {
+    select.innerHTML += `<option value="${mem}">${mem}</option>`;
+  }
 
   atualizarPreco();
+  modal.style.display = "flex";
 }
 
 function atualizarPreco() {
-  modalPreco.textContent =
-    `R$ ${produtoAtual.memorias[modalMemoria.value].preco},00`;
+  const mem = document.getElementById("memoria").value;
+  const preco = produtoAtual.precos[mem];
+  document.getElementById("modalPreco").innerText = `R$ ${preco}`;
 }
-
-modalMemoria.addEventListener("change", atualizarPreco);
 
 function fecharModal() {
   modal.style.display = "none";
 }
 
-/* WHATSAPP */
 function comprar() {
-  const msg = `
-Olá! Tenho interesse no produto:
+  const mem = document.getElementById("memoria").value;
+  const preco = produtoAtual.precos[mem];
 
-📱 ${produtoAtual.nome}
-🎨 Cor: ${modalCor.value}
-💾 Memória: ${produtoAtual.memorias[modalMemoria.value].tamanho}
-💰 Preço: R$ ${produtoAtual.memorias[modalMemoria.value].preco},00
-`;
-
-  window.open(
-    `https://wa.me/${whatsappNumero}?text=${encodeURIComponent(msg)}`,
-    "_blank"
-  );
+  const msg = `Olá! Quero comprar o ${produtoAtual.nome} ${mem} por R$ ${preco}`;
+  window.open(`https://wa.me/55SEUNUMERO?text=${encodeURIComponent(msg)}`);
 }
 
-/* INICIAL (MI PADRÃO) */
-mostrarProdutos("mi");
+render(produtos);
