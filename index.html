@@ -2,58 +2,59 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Power Cell</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css">
+  <title>Power Cell</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="logo">
-    <img src="img/logo.png">
+<div class="logo">
+  <img src="logo.png" alt="Power Cell">
+</div>
+
+<div class="container">
+
+  <!-- MENU LATERAL -->
+  <aside class="menu">
+    <button onclick="filtrar('todos')" class="ativo">
+      <img src="logos/all.png">
+    </button>
+    <button onclick="filtrar('iphone')">
+      <img src="logos/iphone.png">
+    </button>
+    <button onclick="filtrar('xiaomi')">
+      <img src="logos/xiaomi.png">
+    </button>
+    <button onclick="filtrar('poco')">
+      <img src="logos/poco.png">
+    </button>
+    <button onclick="filtrar('realme')">
+      <img src="logos/realme.png">
+    </button>
+  </aside>
+
+  <!-- VITRINE -->
+  <main class="vitrine" id="vitrine"></main>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <span class="fechar" onclick="fecharModal()">×</span>
+    <img id="modal-img">
+    <h2 id="modal-nome"></h2>
+
+    <select id="memoria" onchange="atualizarPreco()"></select>
+
+    <p class="preco" id="modal-preco"></p>
+
+    <a id="whats" target="_blank">
+      <button>Comprar no WhatsApp</button>
+    </a>
   </div>
+</div>
 
-  <div class="container">
-
-    <aside class="menu">
-      <button class="ativo" onclick="filtrar('todos', this)">
-        <img src="img/logos/all.png">
-      </button>
-      <button onclick="filtrar('apple', this)">
-        <img src="img/logos/apple.png">
-      </button>
-      <button onclick="filtrar('xiaomi', this)">
-        <img src="img/logos/xiaomi.png">
-      </button>
-      <button onclick="filtrar('poco', this)">
-        <img src="img/logos/poco.png">
-      </button>
-      <button onclick="filtrar('realme', this)">
-        <img src="img/logos/realme.png">
-      </button>
-    </aside>
-
-    <main class="vitrine" id="vitrine"></main>
-
-  </div>
-
-  <!-- MODAL -->
-  <div class="modal" id="modal">
-    <div class="modal-content">
-      <span class="fechar" onclick="fecharModal()">✕</span>
-      <img id="modalImg">
-      <h3 id="modalNome"></h3>
-
-      <div class="opcao">
-        <label>Memória</label>
-        <select id="memoria" onchange="atualizarPreco()"></select>
-      </div>
-
-      <div class="preco" id="modalPreco"></div>
-
-      <button onclick="comprar()">Comprar no WhatsApp</button>
-    </div>
-  </div>
-
-  <script src="js/script.js"></script>
+<script src="produtos.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
