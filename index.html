@@ -1,60 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Power Cell</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PowerCell</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
+<!-- LOGO -->
 <div class="logo">
-  <img src="file_0000000012a4720ea9da1467e7dd24f3 (1).png" alt="Power Cell">
+  <img src="img/powercell.png">
 </div>
 
 <div class="container">
 
   <!-- MENU LATERAL -->
   <aside class="menu">
-    <button onclick="filtrar('todos')" class="ativo">
-      <img src="logos/all.png">
-    </button>
-    <button onclick="filtrar('iphone')">
-      <img src="file_00000000de7c71f5aebda6fec261ced1.png">
-    </button>
-    <button onclick="filtrar('xiaomi')">
-      <img src="file_00000000f638720ebefe291d667c482c.png">
-    </button>
-    <button onclick="filtrar('poco')">
-      <img src="file_00000000ec8471f5bca31a8bf8e4d55b.png">
-    </button>
-    <button onclick="filtrar('realme')">
-      <img src="file_00000000a808720e8fd7d9854fcc8e1b.png">
-    </button>
+    <img src="img/todos.png" onclick="filtrar('todos')" class="ativo">
+    <img src="img/apple.png" onclick="filtrar('apple')">
+    <img src="img/xiaomi.png" onclick="filtrar('xiaomi')">
+    <img src="img/poco.png" onclick="filtrar('poco')">
+    <img src="img/realme.png" onclick="filtrar('realme')">
   </aside>
 
   <!-- VITRINE -->
   <main class="vitrine" id="vitrine"></main>
+
 </div>
 
 <!-- MODAL -->
 <div class="modal" id="modal">
-  <div class="modal-box">
+  <div class="modal-content">
     <span class="fechar" onclick="fecharModal()">×</span>
-    <img id="modal-img">
-    <h2 id="modal-nome"></h2>
 
-    <select id="memoria" onchange="atualizarPreco()"></select>
+    <h2 id="modalTitulo"></h2>
+    <p class="preco" id="modalPreco"></p>
 
-    <p class="preco" id="modal-preco"></p>
+    <select id="modalMemoria" onchange="atualizarPreco()"></select>
 
-    <a id="whats" target="_blank">
-      <button>Comprar no WhatsApp</button>
-    </a>
+    <button onclick="comprarWhats()">Comprar no WhatsApp</button>
   </div>
 </div>
 
-<script src="produtos.js"></script>
-<script src="app.js"></script>
+<script src="js/produtos.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>
