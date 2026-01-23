@@ -1,48 +1,63 @@
-let lista = produtos;
-let atual;
+let produtoAtual = null;
 
-function render() {
+function carregarProdutos(lista) {
+  const vitrine = document.getElementById("vitrine");
   vitrine.innerHTML = "";
-  lista.forEach((p, i) => {
+
+  lista.forEach(p => {
     vitrine.innerHTML += `
-      <div class="card" onclick="abrirModal(${i})">
+      <div class="card" onclick="abrirModal(${p.id})">
         <img src="${p.imagem}">
         <h3>${p.nome}</h3>
-        <p>A partir de R$ ${Object.values(p.memorias)[0]}</p>
+        <p>A partir de R$ ${Math.min(...Object.values(p.memorias))}</p>
       </div>
     `;
   });
 }
 
 function filtrar(marca) {
-  document.querySelectorAll('.menu button').forEach(b => b.classList.remove('ativo'));
-  event.currentTarget.classList.add('ativo');
+  document.querySelectorAll(".menu img").forEach(i => i.classList.remove("ativo"));
+  event.target.classList.add("ativo");
 
-  lista = marca === "todos" ? produtos : produtos.filter(p => p.marca === marca);
-  render();
+  if (marca === "todos") {
+    carregarProdutos(produtos);
+  } else {
+    carregarProdutos(produtos.filter(p => p.marca === marca));
+  }
 }
 
-function abrirModal(i) {
-  atual = lista[i];
-  modal.style.display = "flex";
-  modalImg.src = atual.imagem;
-  modalNome.innerText = atual.nome;
+function abrirModal(id) {
+  produtoAtual = produtos.find(p => p.id === id);
 
-  memoria.innerHTML = "";
-  for (let m in atual.memorias) {
-    memoria.innerHTML += `<option value="${m}">${m}</option>`;
+  document.getElementById("modalTitulo").innerText = produtoAtual.nome;
+
+  const select = document.getElementById("modalMemoria");
+  select.innerHTML = "";
+
+  for (let m in produtoAtual.memorias) {
+    select.innerHTML += `<option value="${m}">${m}</option>`;
   }
+
   atualizarPreco();
+  document.getElementById("modal").style.display = "flex";
 }
 
 function atualizarPreco() {
-  const m = memoria.value;
-  modalPreco.innerText = `R$ ${atual.memorias[m]}`;
-  whats.href = `https://wa.me/55SEUNUMERO?text=Quero%20${atual.nome}%20${m}`;
+  const mem = document.getElementById("modalMemoria").value;
+  document.getElementById("modalPreco").innerText =
+    "R$ " + produtoAtual.memorias[mem].toLocaleString("pt-BR");
 }
 
 function fecharModal() {
-  modal.style.display = "none";
+  document.getElementById("modal").style.display = "none";
 }
 
-render();
+function comprarWhats() {
+  const mem = document.getElementById("modalMemoria").value;
+  const preco = produtoAtual.memorias[mem];
+
+  const msg = `Olá! Quero comprar o ${produtoAtual.nome} (${mem}) por R$ ${preco}`;
+  window.open(`https://wa.me/55SEUNUMERO?text=${encodeURIComponent(msg)}`);
+}
+
+carregarProdutos(produtos);
